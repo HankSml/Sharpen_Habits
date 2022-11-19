@@ -50,6 +50,7 @@ namespace Sharpen_Habits
 						await Sharpen_Habits.Query.UpdateHabit();
 						break;
 					default:
+						Console.WriteLine("Invalid input. Please enter a number from 0 to 4\n");
 						break;
 				}
             }

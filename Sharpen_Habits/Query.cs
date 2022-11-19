@@ -168,6 +168,12 @@ namespace Sharpen_Habits
 
             if (input == "0") Sharpen_Habits.Program.GetUserInput();
 
+            while(DateTime.TryParseExact(input, "dd-MM-yy", new CultureInfo("en-US"), DateTimeStyles.None, out _) == false)
+            {
+                Console.WriteLine("Invalid date of format dd-mm-yy. Type enter a valid date or type 0 to return to the main menu");
+                input = Console.ReadLine(); 
+            }
+
             return input;
         }
         internal static int GetNumberInput(string message)
@@ -177,6 +183,12 @@ namespace Sharpen_Habits
             string rawInput = Console.ReadLine();
 
             if (rawInput == "0") GetUserInput();
+
+            while ((Int32.TryParse(rawInput, out _) || Convert.ToInt32(rawInput) < 0) == false)
+            {
+                Console.WriteLine("Invalid input. Please enter a positive integer");
+                rawInput = Console.ReadLine();
+            }
 
             int finalInput = Convert.ToInt32(rawInput);
 
