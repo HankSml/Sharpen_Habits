@@ -104,9 +104,28 @@ namespace Sharpen_Habits
         }
         public static async Task DeleteHabit() 
         {
+            Console.Clear();
+            await GetAllHabits();
+
+            int recordId = GetNumberInput("Please enter the Id of the record you would like to delete, or 0 to return to the main menu");
+
+
             using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
+                var command = new MySqlCommand
+                {
+                    Connection= connection,
+                    CommandText = $"DELETE from habits WHERE Id = '{recordId}'",
+                };
+
+                int rowCount = await command.ExecuteNonQueryAsync();
+
+                if (rowCount == 0)
+                {
+                    Console.WriteLine($"Record with Id {recordId} doesn't exist");
+                    DeleteHabit();
+                }
             }
         }
         public static async Task UpdateHabit()
