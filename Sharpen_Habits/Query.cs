@@ -93,12 +93,12 @@ namespace Sharpen_Habits
 
                     connection.Close();
 
-                    Console.WriteLine("-------------------------\n");
+                    Console.WriteLine("\n-------------------------\n");
                     foreach (var row in tableData)
                     {
                         Console.WriteLine($"{row.Id} - {row.Date.ToString("dd-MMM-yyyy")} - Quantity: {row.Quantity}");
                     }
-                    Console.WriteLine("-------------------------\n");
+                    Console.WriteLine("\n-------------------------\n");
                 }
             }
         }

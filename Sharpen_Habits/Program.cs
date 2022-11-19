@@ -5,7 +5,7 @@ namespace Sharpen_Habits
 {
 	class Program
 	{
-		static async void Main(string[] args)
+		static async Task Main(string[] args)
 		{
 			await Sharpen_Habits.Query.Init();
 
@@ -19,7 +19,7 @@ namespace Sharpen_Habits
 			while (closeApp == false)
 			{
                 Console.WriteLine("Welcome to Sharpen Habits!");
-                Console.WriteLine("---------------------------\n");
+                Console.WriteLine("--------------------------------------\n");
                 Console.WriteLine("Menu:");
 				Console.WriteLine("Please select an option to begin");
 				Console.WriteLine("Press 0 to close the application");
