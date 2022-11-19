@@ -130,9 +130,34 @@ namespace Sharpen_Habits
         }
         public static async Task UpdateHabit()
         {
+            Console.Clear();
+            await GetAllHabits();
+
+            int updateId = GetNumberInput("Please enter the Id of the record you would like to update, or 0 to return to the main menu");
+
             using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
+
+                var checkCmd = connection.CreateCommand();
+                checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM habits WHERE Id = {updateId})";
+                int checkQuery = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                if (checkQuery == 0) 
+                {
+                    Console.WriteLine($"Record with Id {updateId} doesn't exist");
+                    connection.Close();
+                    UpdateHabit();
+                }
+                string date = GetDateInput();
+
+                int quantity = GetNumberInput("Please insert number of glasses (no decimals)");
+
+                var command = connection.CreateCommand();
+                command.CommandText = $"UPDATE habits SET date = '{date}', quantity = {quantity} WHERE Id = {updateId}";
+                command.ExecuteNonQuery();
+
+                connection.Close();
             }
         }
         internal static string GetDateInput()
