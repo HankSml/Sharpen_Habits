@@ -34,7 +34,6 @@ namespace Sharpen_Habits
 				switch (selectedOption)
 				{
 					case "0":
-						Console.WriteLine("Goodbye!");
 						closeApp = true;
 						break;
 					case "1":
@@ -53,6 +52,7 @@ namespace Sharpen_Habits
 						Console.WriteLine("Invalid input. Please enter a number from 0 to 4\n");
 						break;
 				}
+				if (selectedOption != "1") Console.Clear();
             }
 		}
 	}

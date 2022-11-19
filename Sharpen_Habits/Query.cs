@@ -39,7 +39,6 @@ namespace Sharpen_Habits
 
             int quantity = GetNumberInput("Please insert the number of cups of water per day");
 
-
             using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
@@ -98,7 +97,7 @@ namespace Sharpen_Habits
                     {
                         Console.WriteLine($"{row.Id} - {row.Date.ToString("dd-MMM-yyyy")} - Quantity: {row.Quantity}");
                     }
-                    Console.WriteLine("\n-------------------------\n");
+                    Console.WriteLine("--------------------------------------\n");
                 }
             }
         }
@@ -109,6 +108,11 @@ namespace Sharpen_Habits
 
             int recordId = GetNumberInput("Please enter the Id of the record you would like to delete, or 0 to return to the main menu");
 
+            if (recordId == 0)
+            {
+                await Sharpen_Habits.Program.GetUserInput();
+                return;
+            }
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -130,10 +134,15 @@ namespace Sharpen_Habits
         }
         public static async Task UpdateHabit()
         {
-            Console.Clear();
             await GetAllHabits();
 
             int updateId = GetNumberInput("Please enter the Id of the record you would like to update, or 0 to return to the main menu");
+
+            if (updateId == 0)
+            {
+                await Sharpen_Habits.Program.GetUserInput();
+                return;
+            }
 
             using (var connection = new MySqlConnection(connectionString))
             {
@@ -147,7 +156,8 @@ namespace Sharpen_Habits
                 {
                     Console.WriteLine($"Record with Id {updateId} doesn't exist");
                     connection.Close();
-                    UpdateHabit();
+                    await UpdateHabit();
+                    return;
                 }
                 string date = GetDateInput();
 
@@ -162,15 +172,13 @@ namespace Sharpen_Habits
         }
         internal static string GetDateInput()
         {
-            Console.WriteLine("Please insert the date: (Format: dd-mm-yy). Type 0 to return to the main menu");
+            Console.WriteLine("Please enter the date(Format: dd-mm-yy):");
 
             string input = Console.ReadLine();
 
-            if (input == "0") Sharpen_Habits.Program.GetUserInput();
-
             while(DateTime.TryParseExact(input, "dd-MM-yy", new CultureInfo("en-US"), DateTimeStyles.None, out _) == false)
             {
-                Console.WriteLine("Invalid date of format dd-mm-yy. Type enter a valid date or type 0 to return to the main menu");
+                Console.WriteLine("Invalid date of format dd-mm-yy. Please enter a valid date");
                 input = Console.ReadLine(); 
             }
 
@@ -182,9 +190,7 @@ namespace Sharpen_Habits
 
             string rawInput = Console.ReadLine();
 
-            if (rawInput == "0") GetUserInput();
-
-            while ((Int32.TryParse(rawInput, out _) || Convert.ToInt32(rawInput) < 0) == false)
+            while ((Int32.TryParse(rawInput, out _) || Convert.ToInt32(rawInput) <= 0) == false)
             {
                 Console.WriteLine("Invalid input. Please enter a positive integer");
                 rawInput = Console.ReadLine();
